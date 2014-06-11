@@ -5,8 +5,36 @@ from index import *
 
 class Crawler(object):
 
-    def __init__(self, index):
+    def __init__(self, seed, index):
+    	self.seed = seed
         self.index = index
+
+    def crawl(self, seed):
+
+    	to_crawl = [seed]
+    	crawled = []
+
+    	for url in to_crawl:
+
+    		page = get_page(url)
+    		links = get_all_links(page)
+    		kws = page.lower().split(" ")
+
+    		for i in range(len(links)):
+    			links[i] = repair_link(links[i])
+
+    		for kw in kws:
+    			for link in links:
+    				self.index.add(kw, link)
+
+    		crawled.append(url)
+    		
+    		for link in links:
+    			if not(link in crawled or link in to_crawl):
+    				to_crawl.append(link)
+
+    		to_crawl.pop(0)
+
 
     @staticmethod
     def get_all_links(page):
@@ -49,6 +77,20 @@ class Crawler(object):
 	    
 	    return urls
 	    
+	@staticmethod
+	def repair_link(source_url, link):
+
+		if link.find("#") == -1 and link != "": # Filtrage des ancrages et des urls vides
+
+			if link[0] = "/": # Réparation des liens relatifs à la racine du site
+				root = source_url[0 : source_url.find("/", 7)]
+				link  = root + link
+
+			elif link[0:4] != "http": # Réparation des liens relatifs à la page actuelle
+				folder = source_url[0 : source_url.rfinf("/") + 1]
+				link = folder + link
+
+		return link
 
 
     @staticmethod
