@@ -4,8 +4,8 @@
 class SearchIndex(object):
     
 
-    def __init__(self, entries = {}):
-        self.entries = entries
+    def __init__(self):
+        self.entries = {}
 
     def add(self, kw, url, nb_occ=1):
         '''
@@ -23,8 +23,10 @@ class SearchIndex(object):
         
         if kw in self.entries.keys():
 
+            entry = self.entries[kw]
+
             if url in self.entries[kw].get_urls():
-                self.entries[kw].incr_occurence(nb_occ)
+                self.entries[kw].incr_occurence(url, nb_occ)
             else:
                 self.entries[kw].add_url(url, nb_occ)
 
@@ -41,6 +43,7 @@ class SearchIndex(object):
         '''
         
         return self.entries[kw, None]
+        
 
     def lookup(self, kw):
         '''
@@ -69,10 +72,13 @@ class IndexEntry(object):
         ''' Retourne le mot-clé associé à cette entrée '''
         return self.kw
 
+    def incr_occurence(self, url, nb_occ):
+        self.urls[url] += nb_occ
+
 
     def get_urls(self):
         ''' Retourne la liste des urls associées à cette entrée '''
-        self.urls = list(self.urls.key())
+        return list(self.urls.keys())
 
 
     def add_url(self, url, nb_occ=1):
