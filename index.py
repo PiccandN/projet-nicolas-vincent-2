@@ -59,19 +59,19 @@ class SearchIndex(object):
 class IndexEntry(object):
 
     def __init__(self, kw):
-        self.kw = kw
-        self.urls = {}
-        self.nb_lookups = 0
+
+
+
 
     def get_kw(self):
         ''' Retourne le mot-clé associé à cette entrée '''
         
-        return self.kw
+
 
     def get_urls(self):
         ''' Retourne la liste des urls associées à cette entrée '''
         
-        return list(self.urls.keys())
+
 
     def add_url(self, url, nb_occ=1):
         '''
@@ -82,4 +82,4 @@ class IndexEntry(object):
 
         '''
 
-        self.urls[url:nb_occ]
+        
