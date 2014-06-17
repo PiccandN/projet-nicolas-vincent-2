@@ -1,6 +1,3 @@
-
-
-
 class SearchIndex(object):
     
 
@@ -52,6 +49,7 @@ class SearchIndex(object):
         vide si le mot-clé n'existe pas
 
         '''
+        self.entries[kw].incr_lookups()
         
         if kw in self.entries.keys():
             return self.entries[kw].get_urls()
@@ -75,6 +73,8 @@ class IndexEntry(object):
     def incr_occurence(self, url, nb_occ):
         self.urls[url] += nb_occ
 
+    def incr_lookups(self):
+        self.nb_lookups += 1
 
     def get_urls(self):
         ''' Retourne la liste des urls associées à cette entrée '''
@@ -90,4 +90,3 @@ class IndexEntry(object):
 
         '''
         self.urls[url] = nb_occ
-        
